@@ -1,0 +1,79 @@
+﻿@model Forum.ViewModels.ForumViewModel
+
+
+<form asp-controller="Topic" asp-action="Index" method="post" >
+    <div>
+        <div class="input-group">
+            <div class="form-outline">
+                <input type="search" id="form1" class="form-control" name="SearchQuery" placeholder="Search topic" />
+            </div>
+            <div class="form-btn">
+                <input type="submit" value="Search post" class="btn btn-success text-white" />
+            </div>
+            <span>
+                <div class="container text-center">
+                    <a onclick="showInPopup('@Url.Action("AddOrEdit","Topic",null,Context.Request.Scheme)','Topic')" class="btn btn-success text-white"><i class="fas fa-random"></i> New Topic</a>
+                </div>
+            </span>
+        </div>
+    </div>
+    <br />
+    <div class="container">
+        <div class="columns">
+            <div class="column is-three-quarters">
+                <div class="box forum">
+                    @foreach (var topic in Model.Topics)
+                    {
+                        <br />
+                        <div class="media">
+                            <input id ="topicId_@topic.TopicId" type="hidden" asp-for="@topic.TopicId" />
+                            <input type="hidden" asp-for="@topic.DateCreated" />
+                            <input type="hidden" asp-for="@topic.DateModified" />
+                            <input type="hidden" asp-for="@topic.UserId" />
+                            <input type="hidden" asp-for="@topic.UserName" />
+                            <div class="media-left">
+                                <figure class="image avatar is-64x64">
+                                    <img src="~/images/@topic.TopicPicture" alt="Image" class="is-rounded" height="40" width="40" asp-append-version="true">
+                                    
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content list-forum">
+                                    <p class="text-content">
+                                        <a href="#">
+                                            @topic.Description
+                                            <span class="solved" title="Solved">
+                                                <i class="mdi mdi-checkbox-marked-circle"></i>
+                                            </span>
+                                        </a>
+                                    </p>
+                                    <p class="tags-content">
+                                        <a class="tag is-rounded is-primary">@topic.Title</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <section id="commentSection">
+                            @foreach (var comment in Model.Comments)
+                            {
+                                <input type="hidden" asp-for="@comment.UserName" />
+                                <input type="hidden" asp-for="@comment.UserId" />
+                                @if (comment.TopicId == topic.TopicId)
+                                {
+                        <div class="container">
+                            <textarea readonly>@comment.Text</textarea>
+                        </div>
+                                    
+                                }
+                            }
+                        </section>
+                        <section>
+                            <input onclick="showComment('@Url.Action("AddComment","Comment", null,Context.Request.Scheme)','Comment', @topic.TopicId)" type="button" id="addComment" class="btn-sm btn-success" value="New Comment" />
+                        </section>
+                        <br />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

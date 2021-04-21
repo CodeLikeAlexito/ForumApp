@@ -1,4 +1,5 @@
 ﻿using Forum.Data;
+using Forum.Models;
 using Forum.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,14 +27,24 @@ namespace Forum.RepositoriesImpl
             table.Remove(obj);
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return table.ToList();
+            return await table.ToListAsync();
+        }
+
+        public IEnumerable<Topic> QueriedTopics(string queryString)
+        {
+            return _context.Topic.Where(p => p.Title.Contains(queryString) || p.Description.Contains(queryString)).ToList();
         }
 
         public T GetById(int Id)
         {
             return table.Find(Id);
+        }
+
+        public async Task<T> GetByIdAsync(int Id)
+        {
+            return await table.FindAsync(Id);
         }
 
         public void Insert(T obj)
@@ -44,6 +55,11 @@ namespace Forum.RepositoriesImpl
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
         }
 
         public void Update(T obj)

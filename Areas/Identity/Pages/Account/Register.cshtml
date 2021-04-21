@@ -5,9 +5,7 @@
     Layout = "~/Areas/Identity/Pages/_AuthLayout.cshtml";
 }
 
-<form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-    <h4>Create a new account.</h4>
-    <hr />
+<form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="row">
         <div class="col-md-6">
@@ -46,9 +44,21 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Input.ProfileImage" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Input.ProfileImage" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <span asp-validation-for="Input.ProfileImage" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
 
     <button type="submit" class="btn btn-primary">Register</button>
+
 </form>
 
 <!--

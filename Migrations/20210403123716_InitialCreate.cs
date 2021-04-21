@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Forum.Migrations
 {
-    public partial class AddModelsCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,8 @@ namespace Forum.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(type: "varchar(100)", nullable: true),
-                    LastName = table.Column<string>(type: "varchar(100)", nullable: true)
+                    LastName = table.Column<string>(type: "varchar(100)", nullable: true),
+                    ProfilePicture = table.Column<string>(type: "varchar(100)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,11 +56,12 @@ namespace Forum.Migrations
                 {
                     topic_id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    title = table.Column<string>(nullable: true),
-                    topic_description = table.Column<string>(nullable: true),
+                    title = table.Column<string>(nullable: false),
+                    topic_description = table.Column<string>(nullable: false),
                     date_created = table.Column<DateTime>(nullable: false),
                     date_modified = table.Column<DateTime>(nullable: false),
-                    user_id = table.Column<string>(nullable: true)
+                    user_id = table.Column<string>(nullable: true),
+                    picture_path = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

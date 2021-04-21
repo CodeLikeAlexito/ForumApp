@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace Forum.Areas.Identity.Pages.Account
 {
@@ -56,6 +57,13 @@ namespace Forum.Areas.Identity.Pages.Account
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
+            [DataType(DataType.ImageUrl)]
+            [Display(Name = "Profile Picutre")]
+            public string ProfilePicture { get; set; }
+
+            [DataType(DataType.Upload)]
+            [Display(Name = "Profile Image")]
+            public IFormFile ProfileImage { get; set; }
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -90,7 +98,7 @@ namespace Forum.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ForumUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName };
+                var user = new ForumUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, ProfilePicture = Input.ProfilePicture, ProfileImage = Input.ProfileImage };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
